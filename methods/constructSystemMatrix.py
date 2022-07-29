@@ -10,9 +10,8 @@ Functions:
     half_matrix(string, string) -> ndarray
     count(string, tuple[string, int]) -> int
     split(string) -> tuple[tuple[string, int], tuple[string, int], tuple[string, int]]
-
+git b
 """
-from curses import raw
 import numpy as np
 import re
 
@@ -21,7 +20,8 @@ def equationToMatrix(equation_units):
     Produce a matrix encoding the equations inherent in a chemical equation.
 
     Arguments:
-        equation_units: A tuple with a tuple corresponding to the chemical equation and a list of the atoms[tuple(tuple(list[str], list[str]), list[str]]
+        equation_units: A tuple with a tuple corresponding to the chemical equation and a list of the atoms 
+            [tuple(tuple(list[str], list[str]), list[str]]
 
     Returns:
         processed_equation: A matrix corresponding to the chemical equation [ndarray]
@@ -42,7 +42,8 @@ def processEquation(raw_equation):
     Arguments:
         raw_equation: unbalanced chemical equation [str]
     Returns:
-        equation_units: A tuple with a tuple corresponding to the chemical equation and a list of the atoms[tuple(tuple(list[str], list[str]), list[str]]
+        equation_units: A tuple with a tuple corresponding to the chemical equation and a list of the atoms
+            [tuple(tuple(list[str], list[str]), list[str]]
     '''
     # Get terms
     rec, prod = separateSides(raw_equation)

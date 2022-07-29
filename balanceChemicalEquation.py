@@ -60,8 +60,9 @@ def writeBCESteps(equation, wrap=True):
     
     Arguments:
         equation: unbalanced chemical equation [string]
+        wrap: a switch to include the balanced chemical equation, in addition to the coefficients [boolean]
     Return:
-        text (address) : address to text file
+        text : address to text file [string]
     """
     with open('BCESteps.txt', 'w') as f:
         # Catch illegal expressions
@@ -69,7 +70,8 @@ def writeBCESteps(equation, wrap=True):
             return 0
         f.write(f"Equation\n{equation}\n")
         # Construct system matrix
-        mat = equationToMatrix(equation)
+        equation_units = processEquation(equation)
+        mat = equationToMatrix(equation_units)
         f.write(f"Matrix\n{mat}\n")
         # Reduce system matrix
         dr_mat = diophantineRowReduce(mat)
@@ -83,8 +85,8 @@ def writeBCESteps(equation, wrap=True):
         if wrap:
             # Rewrite equation
             sides_terms = processEquation(equation)
-            # Inefficiency to address: Lines 85 and 81 both call `processEquation(equation`
-            bal_eq = wrapSolvedEquation(sides_terms, coefficients)
+            # Inefficiency to address: Lines 85 and 81 both call `processEquation(equation)`
+            bal_eq = wrapSolvedEquation(equation_units[0], coefficients)
             f.write(f"Balanced Equation\n{bal_eq}\n")
         return f.name
 
@@ -94,7 +96,6 @@ if __name__ == '__main__':
     
     t = False
     if sh == 'y':
-        t=True
+        writeBCESteps(eq)
 
-    # print(f'Balanced Equation\n{balanceChemicalEquation(eq, show=t)[1]}')
-    writeBCESteps(eq)
+    print(f'Balanced Equation\n{balanceChemicalEquation(eq)}')
