@@ -89,13 +89,3 @@ def writeBCESteps(equation, wrap=True):
             bal_eq = wrapSolvedEquation(equation_units[0], coefficients)
             f.write(f"Balanced Equation\n{bal_eq}\n")
         return f.name
-
-if __name__ == '__main__':
-    eq = input('Input Chemical Equation\n')
-    sh = input('Show steps? (y/n): ')
-    
-    t = False
-    if sh == 'y':
-        writeBCESteps(eq)
-
-    print(f'Balanced Equation\n{balanceChemicalEquation(eq)}')

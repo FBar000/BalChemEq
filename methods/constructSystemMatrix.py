@@ -20,7 +20,7 @@ def equationToMatrix(equation_units):
     Produce a matrix encoding the equations inherent in a chemical equation.
 
     Arguments:
-        equation_units: A tuple with a tuple corresponding to the chemical equation and a list of the atoms 
+        equation_units: A tuple with a tuple corresponding to the chemical equation and a list of the atoms d
             [tuple(tuple(list[str], list[str]), list[str]]
 
     Returns:
