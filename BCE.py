@@ -81,10 +81,8 @@ def writeBCESteps(equation, wrap=True):
             return 1
         # Extract solution
         coefficients = extract_smallest_solution(dr_mat)
-        f.write(f"Coeficients\n{coefficients}\n")
+        f.write(f"Coefficients\n{coefficients}\n")
         if wrap:
-            # Rewrite equation
-            sides_terms = processEquation(equation)
             # Inefficiency to address: Lines 85 and 81 both call `processEquation(equation)`
             bal_eq = wrapSolvedEquation(equation_units[0], coefficients)
             f.write(f"Balanced Equation\n{bal_eq}\n")

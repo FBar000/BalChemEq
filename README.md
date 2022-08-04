@@ -16,6 +16,21 @@ Then, fetch the dependencies via
 
 As mentioned, this project is a tool. Every method has documentation.Anyways, here's a brief startup guide for the main methods of this file, contained in `BCE.py.`
 
+### Equation Criteria
+
+Conceptually, the programs in this project support chemical equations that encode exactly one chemical reaction. The reactant and product sides are separated by a colon (`:`) (E.g. `H2 + O2 : H2O`). 
+
+When implementing such an equation in a string, the following 'mechanical' criteria must also be met:
+
+- The input only contains " ", "+", ":", "(", ")", and letters and numbers
+- There is exactly one ":" separating the reactant and product sides of the equation
+- If there is whitespace between two letters, there is also a "+"
+- Terms begin with uppercase letters
+- Parentheses are balanced
+- Substrings from lowercase to earliest uppercase (right->left) contain only alphabetical characters
+(For a lowercase character, there is an unbroken string of letters to the left that contains an uppercase letter)
+
+
 ### Balance a Chemical Equation
 
 Given an unbalanced chemical equation as a string, `S`,  `BCE.balanceChemicalEquation(S)` evaluates to the string with the balanced chemical equation.
