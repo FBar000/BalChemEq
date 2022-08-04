@@ -1,0 +1,12 @@
+Equation
+H2 + O2 : H2O
+Matrix
+[[ 2  0 -2]
+ [ 0  2 -1]]
+Reduced Matrix
+[[ 1  0 -1]
+ [ 0  2 -1]]
+Coeficients
+[2 1 2]
+Balanced Equation
+2 H2 + O2 : 2 H2O

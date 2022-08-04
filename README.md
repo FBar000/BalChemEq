@@ -1,4 +1,4 @@
-# BalChemEq
+# BCE
 
 This is a project dedicated to balancing chemical equations. It is intended as a tool for building other programs. Given an equation as a string, this project contains programs to find the balancing coefficients, rewrite the chemical equation, as well as show the work. This is possible by representing chemical equations as systems of homogenous diophantine linear equations and using matrix operations. Currently, this program supports equations that have one unique solution. Chemically, this would mean equations that represent exactly one reaction.
 
@@ -14,12 +14,55 @@ Then, fetch the dependencies via
 
 ## Usage 
 
-First, I=import the scripts into your python project via
+As mentioned, this project is a tool. Every method has documentation.Anyways, here's a brief startup guide for the main methods of this file, contained in `BCE.py.`
+
+### Balance a Chemical Equation
+
+Given an unbalanced chemical equation as a string, `S`,  `BCE.balanceChemicalEquation(S)` evaluates to the string with the balanced chemical equation.
 
 ```
-import balanceChemicalEquation as BCE
+>>> import BCE
+>>> S = 'H2 + O2 : H2O'
+>>> BCE.balanceChemicalEquation(S)
+'2 H2 + O2 : 2 H2O'
 ```
 
-### Balance a chemical equation
+### Find Balancing Coefficients
 
-  
+Given an unbalanced chemical equation as a string, `S`, `BCE.findBalancingCoefficients(S)` evaluates to a NumPy array containing the balancing coeffients. The order of the coefficents corresponds to the terms in the equation from left to right.
+
+```
+>>> import BCE
+>>> S = 'H2 + O2 : H2O'
+>>> BCE.findBalancingCoefficients(S)
+array([2, 1, 2])
+```
+
+### Write Steps to Solution
+
+To see the steps taken by the machine to balance an equation, `S` (string), `BCE.writeBCESteps(S)` creates a text file in the current directory titled `BCESteps.txt`.
+
+
+```
+>>> import BCE
+>>> S = 'H2 + O2 : H2O'
+>>> BCE.writeBCESteps(S)
+'BCESteps.txt'
+```
+BCESteps.txt contains
+
+```
+Equation
+H2 + O2 : H2O
+Matrix
+[[ 2  0 -2]
+ [ 0  2 -1]]
+Reduced Matrix
+[[ 1  0 -1]
+ [ 0  2 -1]]
+Coeficients
+[2 1 2]
+Balanced Equation
+2 H2 + O2 : 2 H2O
+```
+(Formatting this in a nicer way, as well as showing the steps of the reduction and the coefficient extraction processes are pending projects)
