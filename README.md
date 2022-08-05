@@ -15,7 +15,7 @@ Then, fetch the dependencies via
 ## Usage 
 
 As mentioned, this project is a tool. Every method has documentation.Anyways, here's a brief startup guide for the main methods of this file, contained in `BCE.py.`
-
+g
 ### Equation Criteria
 
 Conceptually, the programs in this project support chemical equations that encode exactly one chemical reaction. The reactant and product sides are separated by a colon (`:`) (E.g. `H2 + O2 : H2O`). 
