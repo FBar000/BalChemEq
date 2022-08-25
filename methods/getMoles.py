@@ -21,12 +21,11 @@ def getMolarMass(base_substance, target_substance=''):
     if target_substance == '':
         target_substance = base_substance
     const = 0
-    L =  findAtoms(target_substance)
-    for a in L:
-        print(a)
-        print(count(a, (base_substance, 1)))
-        # print(count(a, (base_substance, 1)) * mendeleev.element(a).atomic_weight)
-        const += count(a, (base_substance, 1)) * mendeleev.element(a).atomic_weight
+    List =  findAtoms(target_substance)
+    for atom in List:
+        amount_of_atom = count(atom, (base_substance, 1))
+        atomic_weight = mendeleev.element(atom).atomic_weight
+        const += amount_of_atom * atomic_weight
     return const
 
 
@@ -108,4 +107,4 @@ def massCompToMoleComp(mass_composition):
 if __name__ == '__main__':
 
     print(getMolarMass("C2H3Cl"))
-    # print(7 / 2 * 35.00 / getMolarMass("C2H3Cl"))
+    print(7 / 2 * 35.00 / getMolarMass("C2H3Cl"))

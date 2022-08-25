@@ -7,6 +7,9 @@ Functions:
 
 """
 
+from re import I
+
+
 def wrapSolvedEquation(equation_side_terms, coefficients):
     """
     Returns a string of a balanced chemical equation
@@ -35,3 +38,25 @@ def wrapSolvedEquation(equation_side_terms, coefficients):
         else:
             prSol += equation_side_terms[1][idx] + " + "
     return reSol[:-2].strip()+" : "+prSol[:-2].strip()
+
+def getCoefficients(equation_side_terms, coefficients):
+    """
+    Returns a dictionary with the coefficients that correspond to each term. 
+
+    Arguments:
+        equation_side_terms: a 2-tuple of lists [str]
+        coefficients: a one-dimensional numpy array [int] 
+    Returns:
+        A dictionary with (term, coefficient) entries
+    """
+    solution = {}
+    reLen, prLen = len(equation_side_terms[0]), len(equation_side_terms[1])
+    # Reactants
+    for idx in range(reLen):
+        coef = coefficients[idx]
+        solution[equation_side_terms[0][idx]] = coef
+    # Products
+    for idx in range(prLen):
+        coef = coefficients[idx]
+        solution[equation_side_terms[1][idx]] = coef
+    return solution
