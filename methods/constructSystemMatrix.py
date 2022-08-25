@@ -50,19 +50,19 @@ def processEquation(raw_equation):
     equation_sides = getTerms(rec), getTerms(prod)
     return equation_sides, findAtoms(raw_equation)
 
-def findAtoms(raw_equation):
+def findAtoms(chemical_expression):
     '''
     Return an alphabetically ordered list of atoms in equation
     
     Arguments:
-        raw_equation: unbalanced chemical equation [str]
+        raw_equation: chemical expression [str]
     Return:
         atoms: the atoms in a chemical equation [list(str)]
     '''
     atoms = set()
     atom = ""
-    for i in range(len(raw_equation)):
-        cchar = raw_equation[i]
+    for i in range(len(chemical_expression)):
+        cchar = chemical_expression[i]
         if cchar.isupper():
             atoms.add(atom)
             atom = ""
@@ -129,21 +129,21 @@ def count(atom, term_tuple):
     # establish running total
     ct = 0
     # proceed if atom in term
-    if term.find(atom) != -1:
+    if getInstanceIdx(term, atom) != -1:
         # base case: no parenthetical groups
         if term.find(')') == -1:
             # Ensure atom itself is found (not any accidental matches e.g. 'Ca' for 'C')
             idx = term.find(atom)
             if idx+len(atom) < len(term):
-                while term[idx+len(atom)].islower():
-                    idx = term.find(atom, idx+1)
+                while term[idx+len(atom)].islower() :
+                    idx = getInstanceIdx(term, atom, idx+1)
             # add numbers immediately after atom to total
             while idx != -1:
                 if idx + len(atom) < len(term) and term[idx+len(atom)].isnumeric():
                     ct += int(re.findall("[0-9]+", term[idx:])[0])
                 else:
                     ct += 1
-                idx = term.find(atom, idx+1)
+                idx = getInstanceIdx(term, atom, idx+1)
         # recursive step: look at each group
         else:
             for term_tuple in split(term):
@@ -185,3 +185,29 @@ def split(term):
             return (term[:idx1], 1), (term[idx1+1:idx2], tmp), (term[idx2+1+crt:], 1)
     print(f"Invalid String: Unbalanced parentheses in {term}")
     return []
+
+
+def getInstanceIdx(term, atom, idx=0):
+    """
+    Wrap the term.find(atom, idx) to include checks against accidental matches (e.g. "Ca" for "C")
+
+    Arguments: 
+        term (string) The chemical expression to search
+        atom (string) The atom to search for
+        idx (int) The index from which to search from. Defaults to zero.
+    Return:
+        idx (int) The index of the first match of `atom` in `term` beyond `idx`
+    
+    Returns -1 if no matches are found
+    """
+    idx = term.find(atom,idx)
+    # For single character atoms, ensure no accidental match (e.g. "Ca" for "C")
+    if len(atom) == 1 and term[idx+1].islower():
+        return -1
+    return idx
+
+
+if __name__ == "__main__":
+    term = "CO2CCCCCCCl"
+    atom = "C"
+    print(count(atom, (term, 1)))

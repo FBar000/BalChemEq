@@ -12,7 +12,6 @@ Functions:
     pivIdx(ndarray) -> int
 
 '''
-import numpy as np
 # A matrix is valid iff 
 # Each row has either exactly two non zero elements (last and ) or none
 # Leading entry is non zero
