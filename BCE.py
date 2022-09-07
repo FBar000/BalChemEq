@@ -26,6 +26,27 @@ def balanceChemicalEquation(equation):
     bal_eq = wrapSolvedEquation(sides_terms, coefficients)
     return bal_eq
 
+def solutionCoefficients(equation):
+    """
+    Balance a chemical equation.
+
+    Equations must contain exactly one reaction. All atoms must be present on both reactant and product sides of the equation.
+    
+    Arguments:
+        equation: unbalanced chemical equation [string]
+    Return:
+        balanced_equation (dict) Solution information (term : coefficient)
+    """
+    # Find coefficients
+    coefficients = findBalancingCoefficients(equation)
+    # Construct system matrix
+    sides_terms = processEquation(equation)[0]
+    # Inefficiency to address: lines 21 and 23 both call `processEquation(equation)`
+    # Rewrite equation
+    bal_eq = getCoefficients(sides_terms, coefficients)
+    return bal_eq
+
+
 def findBalancingCoefficients(equation):
     """
     Find coefficients that balance a chemical equation
@@ -75,6 +96,7 @@ def writeBCESteps(equation, wrap=True):
         f.write(f"Matrix\n{mat}\n")
         # Reduce system matrix
         dr_mat = diophantineRowReduce(mat)
+        dr_mat = removeZeroRows(dr_mat)
         f.write(f"Reduced Matrix\n{dr_mat}\n")
         # Validate result
         if not validateDRMat(dr_mat):
@@ -87,3 +109,11 @@ def writeBCESteps(equation, wrap=True):
             bal_eq = wrapSolvedEquation(equation_units[0], coefficients)
             f.write(f"Balanced Equation\n{bal_eq}\n")
         return f.name
+
+
+if __name__ =="__main__":
+
+    
+    equation = "NH3 + H3PO4 : N3H12PO4"
+    # print(solutionCoefficients(equation))
+    writeBCESteps(equation)

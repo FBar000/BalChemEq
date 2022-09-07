@@ -200,14 +200,9 @@ def getInstanceIdx(term, atom, idx=0):
     
     Returns -1 if no matches are found
     """
-    idx = term.find(atom,idx)
+    idxi = term.find(atom,idx)
     # For single character atoms, ensure no accidental match (e.g. "Ca" for "C")
-    if len(atom) == 1 and term[idx+1].islower():
-        return -1
-    return idx
-
-
-if __name__ == "__main__":
-    term = "CO2CCCCCCCl"
-    atom = "C"
-    print(count(atom, (term, 1)))
+    if idxi + len(atom) < len(term):
+        if len(atom) == 1 and term[idxi+1].islower():
+            return -1
+    return idxi

@@ -7,8 +7,6 @@ Functions:
 
 """
 
-from re import I
-
 
 def wrapSolvedEquation(equation_side_terms, coefficients):
     """
@@ -57,6 +55,6 @@ def getCoefficients(equation_side_terms, coefficients):
         solution[equation_side_terms[0][idx]] = coef
     # Products
     for idx in range(prLen):
-        coef = coefficients[idx]
+        coef = coefficients[idx+reLen]
         solution[equation_side_terms[1][idx]] = coef
     return solution
