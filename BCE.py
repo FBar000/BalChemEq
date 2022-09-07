@@ -115,5 +115,5 @@ def writeBCESteps(equation, wrap=True):
 if __name__ =="__main__":
 
     
-    equation = "NH3 + H3PO4 : N3H12PO4"
-    print(balanceChemicalEquation(equation))
+    equation = "NH3 + H3PO4 : (NH4)3PO4"
+    writeBCESteps(equation)
