@@ -83,7 +83,7 @@ def validateTerm(raw_string_term):
     Check that input satisfies specific criteria.
     
     Returns True/False if the input string satisfies the all following criteria:
-        - Terms begin with uppercase letter
+        - Terms begin with uppercase letter or opening parenthesis
         - Parentheses are balanced
         - Substrings from lowercase to earliest uppercase (right->left) contain only alphabetical characters
         (For a lowercase character, there is an unbroken string of letters to the left that contains an uppercase letter)
@@ -94,8 +94,8 @@ def validateTerm(raw_string_term):
         False [boolean]: if raw_input doesn't meet conditions
     """
     term.strip()
-    # Check that term begins with uppercase-letter
-    if not term[0].isupper():
+    # Check that term begins with uppercase-letter or opening parenthesis
+    if not (term[0].isupper() or term[0]=="("):
         print(f"Invalid String: Term '{term}'does not begin with an uppercase letter")
         return False
     # Checks that term contains balanced parentheses
