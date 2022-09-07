@@ -66,6 +66,7 @@ def findBalancingCoefficients(equation):
     mat = equationToMatrix(equation_units)
     # Reduce system matrix
     dr_mat = diophantineRowReduce(mat)
+    dr_mat = removeZeroRows(dr_mat)
     # Validate result
     if not validateDRMat(dr_mat):
         return 1
@@ -115,5 +116,4 @@ if __name__ =="__main__":
 
     
     equation = "NH3 + H3PO4 : N3H12PO4"
-    # print(solutionCoefficients(equation))
-    writeBCESteps(equation)
+    print(balanceChemicalEquation(equation))
