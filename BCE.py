@@ -97,10 +97,11 @@ def writeBCESteps(equation, wrap=True):
         f.write(f"Matrix\n{mat}\n")
         # Reduce system matrix
         dr_mat = diophantineRowReduce(mat)
-        dr_mat = removeZeroRows(dr_mat)
         f.write(f"Reduced Matrix\n{dr_mat}\n")
+        dr_mat = removeZeroRows(dr_mat)
         # Validate result
         if not validateDRMat(dr_mat):
+            raise "Invalid"
             return 1
         # Extract solution
         coefficients = extract_smallest_solution(dr_mat)
@@ -115,5 +116,5 @@ def writeBCESteps(equation, wrap=True):
 if __name__ =="__main__":
 
     
-    equation = "NH3 + H3PO4 : (NH4)3PO4"
+    equation = "NH4CLO4 : N2 + Cl2 + O2"
     writeBCESteps(equation)
