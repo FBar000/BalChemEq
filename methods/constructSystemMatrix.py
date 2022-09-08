@@ -202,8 +202,10 @@ def getInstanceIdx(term, atom, idx=0):
     """
     idx = term.find(atom,idx)
     # For single character atoms, ensure no accidental match (e.g. "Ca" for "C")
-    if len(atom) == 1 and term[idx+1].islower():
-        return -1
+    if len(atom) == 1:
+        if idx!=len(term)-1:
+            if term[idx+1].islower():
+                return -1
     return idx
 
 
