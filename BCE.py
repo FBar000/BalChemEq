@@ -116,5 +116,9 @@ def writeBCESteps(equation, wrap=True):
 if __name__ =="__main__":
 
     
+<<<<<<< HEAD
     equation = "NH4CLO4 : N2 + Cl2 + O2"
+=======
+    equation = "NH4ClO4 : N2 + Cl2 + O2 + H2O"
+>>>>>>> =a
     writeBCESteps(equation)

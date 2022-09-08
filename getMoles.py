@@ -204,8 +204,11 @@ def reactantsFromMoles(equation, product_amounts):
     for key in prod_key:
         reactant_amount[key] = moles * moleRatio(key, lim_reagent, coef)
     return reactant_amount
+<<<<<<< HEAD
 
 
 if __name__ == '__main__':
 
     print(chemica)
+=======
+>>>>>>> =a
