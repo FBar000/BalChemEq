@@ -5,6 +5,7 @@ import mendeleev
 # from methods import *
 from methods import *
 import BCE
+from sigFigsClass import *
 
 def getMolarMass(base_substance, target_substance=''):
     """
@@ -16,7 +17,7 @@ def getMolarMass(base_substance, target_substance=''):
         base_substance (string): the formual of the chemical substance
         target_substance (string): a subset of the substance formula
     Return:
-        const (float): grams of target_substance per mole of substance_foruma
+        const (sfFloat): grams of target_substance per mole of substance_foruma
     """
     # Default to molar mass
     if target_substance == '':
@@ -25,8 +26,8 @@ def getMolarMass(base_substance, target_substance=''):
     List =  findAtoms(target_substance)
     for atom in List:
         amount_of_atom = count(atom, (base_substance, 1))
-        atomic_weight = mendeleev.element(atom).atomic_weight
-        const += amount_of_atom * atomic_weight
+        atomic_weight = sfFloat(mendeleev.element(atom).atomic_weight)
+        const += sfFloat(amount_of_atom * atomic_weight)
     return const
 
 
@@ -36,12 +37,11 @@ def massToMoles(substance_formula, mass):
 
     Arguments:
         substance_formula (string): A chemical formula (molecular formula)
-        mass (float): The mass (in grams) of the substance
+        mass (sfFloat): The mass (in grams) of the substance
     Returns:
-        moles (float): The moles of the element 
+        moles (sfFloat): The moles of the element 
     """
-    const =  getMolarMass(substance_formula)
-    moles = mass / const
+    moles = sfFloat(mass) / getMolarMass(substance_formula)
     return moles
 
 
@@ -51,12 +51,11 @@ def molesToMass(substance_formula, moles):
 
     Arguments:
         substance_formula (string): A chemical formula (molecular formula)
-        mass (float): The moles of the substance
+        mass (sfFloat): The moles of the substance
     Returns:
-        moles (float): The moles of the element 
+        moles (sfFloat): The moles of the element 
     """
-    const = getMolarMass(substance_formula)
-    moles = moles * const
+    moles = sfFloat(moles) * getMolarMass(substance_formula)
     return moles
 
 
@@ -204,11 +203,3 @@ def reactantsFromMoles(equation, product_amounts):
     for key in prod_key:
         reactant_amount[key] = moles * moleRatio(key, lim_reagent, coef)
     return reactant_amount
-<<<<<<< HEAD
-
-
-if __name__ == '__main__':
-
-    print(chemica)
-=======
->>>>>>> =a
