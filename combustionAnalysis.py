@@ -1,8 +1,12 @@
-from unicodedata import decimal
+from array import array
+import copy
+from math import floor
 from getMoles import *
 from methods import *
 import numpy as np
-import sigFigCounter as sfc
+from sigFigsClass import *
+from decimal import Decimal, ROUND_DOWN
+
 
 
 def moles(atom, term, t_mass): 
@@ -16,52 +20,90 @@ def moles(atom, term, t_mass):
     Return:
         moles_of_atom (float) The moles of the atom present in the compound.
     """
-    return t_mass / getMolarMass(term) * count(atom, (term, 1))
+    return t_mass / Decimal(getMolarMass(term)) * Decimal(count(atom, (term, 1)))
 
 def check(raw_number): 
     """
     Returns true if float is within 10^-3 of an integer. False otherwise.
 
     Arguments: 
-        raw_number (dnarray type=float) An array of floating point number.
+        raw_number (Decimal): A Decimal type
     """
-    return np.all(abs(raw_number.round() - raw_number) < 0.001)
+    return abs(raw_number.quantize(Decimal('0.')) - raw_number) < Decimal('0.05')
+
+def checkD(raw_array):
+    """
+    Returns true if items in array are within 10^-3 of an integer. False otherwise.
+
+    Arguments: 
+        raw_array (ndarray type=Decimal): A Decimal type.
+    """
+    for dec in raw_array:
+        if not check(dec):
+            return False
+    return True
+
+def checkZero(raw_number):
+    """
+    Returns true if float is within 10^-3 of 0. False otherwise.
+
+    Arguments: 
+        raw_number (Decimal): A Decimal type
+    """
+    return check(raw_number-Decimal('0'))
 
 
-# A dictionary with {cmpd: mass}; "X" is unknown compound
-unknown_compound_mass = 1.50
-product_information = {"CO2": 4.72,
-                        "H2O": 1.93}
+def combustionAnalysisFindUnknown(unknown_MolarMass, unknown_compound_mass, product_information):
+    """
+    
+    Arguments:
+        unknown_MolarMass (Decimal): The molar mass of the unknown compound.
+        unknown_compound_mass (Decimal): The mass of the sample of the unknown compound.
+        
+    
+    
+    """
 
-# A dictionary of the present atoms
-atoms = findAtoms("".join(product_information.keys()))
-atoms.remove("O")
-print(atoms)
-
-# A dict with {atom: moles}
-info = {}
-for atm in atoms:
+    # Molar mass of unknown compound
+    molar_mass = unknown_MolarMass
+    # Sig figs assumed to unkown_compound_mass
+    sf = Decimal('0.0001')
+    uk_mantissa = Decimal('0.01')
+    # A dictionary of the present atoms
+    atoms = findAtoms("".join(product_information.keys()))
+    atoms.remove("O")
+    # A dict with {atom: moles}
+    info = {}
+    for atm in atoms:
+        tmp = 0
+        for term, mass in product_information.items():
+            tmp += moles(atm, term, mass).quantize(sf)
+        info[atm] = tmp
+    # Find Moles Oxygen
     tmp = 0
-    for term, mass in product_information.items():
-        tmp_2 = moles(atm, term, mass)
-        tmp += np.round(tmp_2, decimals=sfc.find_sigfigs(mass))
-    info[atm] = tmp
-
-print(info)
-# Find Moles Oxygen
-tmp = 0
-for atom, mole in info.items():
-    tmp += np.round(mole * getMolarMass(atom), decimals=sfc.find_sigfigs(mole))
-print(f"tmp: {tmp}")
-print(f"sigfigs: {sfc.find_sigfigs(mole)}")
-info["O"] = (unknown_compound_mass - tmp) / getMolarMass("O")
-print(info)
-
-info_vector = np.fromiter([unknown_compound_mass] + list(info.values()), dtype=float)
-info_vector = info_vector / np.amin(info_vector)
-print(info_vector)
-
-while not check(info_vector):
-    info_vector += info_vector
-
-print(info_vector)
+    for atom, mole in info.items():
+        tmp += (mole * Decimal(getMolarMass(atom))).quantize(sf) 
+    tmp2 = (unknown_compound_mass - tmp).quantize(uk_mantissa) / Decimal(getMolarMass("O"))
+    # Add to list only if nonzero
+    if not checkZero(tmp2):
+        info["O"] = tmp2
+        atoms.append("O")
+    info_vector = np.fromiter(list(info.values()), dtype=Decimal)
+    info_vector = info_vector / np.amin(info_vector)
+    adder = copy.copy(info_vector)
+    while not checkD(info_vector):
+        info_vector += adder
+    aux = Decimal('0')
+    for i in range(info_vector.size):
+        info_vector[i] = info_vector[i].quantize(aux) 
+    solution = {}
+    simple_molarmass = 0
+    for i in range(len(atoms)):
+        atom = atoms[i]
+        mole = int(info_vector[i])
+        solution[atom] = mole
+        simple_molarmass += getMolarMass(atom) * mole
+    factor = round(molar_mass / simple_molarmass)
+    for i in solution:
+        solution[i] *= factor
+    return solution

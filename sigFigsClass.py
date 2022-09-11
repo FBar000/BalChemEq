@@ -13,17 +13,17 @@ class sfFloat(float):
     def __add__(self, other):
         mantissa_len = min(self.mantissa, other.mantissa)
         tmp = self.value + other.value
-        return round(tmp, mantissa_len)
+        return sfFloat(round(tmp, mantissa_len))
     
     def __mul__(self, other):
         sf = min(self.sf, other.sf)
         tmp = str(self.value * other.value)
-        return float(tmp[:sf])
+        return sfFloat(tmp[:sf])
 
     def __truediv__(self, other):
         sf = min(self.sf, other.sf)
         tmp = str(self.value / other.value)
-        return float(tmp[:sf])
+        return sfFloat(tmp[:sf])
 
     def find_sigfigs(self):
         """CREDIT: durden2.0 on StackOverflow"""
