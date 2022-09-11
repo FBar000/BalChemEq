@@ -6,6 +6,7 @@ import mendeleev
 from methods import *
 import BCE
 from sigFigsClass import *
+from BCE import *
 
 def getMolarMass(base_substance, target_substance=''):
     """
@@ -26,8 +27,8 @@ def getMolarMass(base_substance, target_substance=''):
     List =  findAtoms(target_substance)
     for atom in List:
         amount_of_atom = count(atom, (base_substance, 1))
-        atomic_weight = sfFloat(mendeleev.element(atom).atomic_weight)
-        const += sfFloat(amount_of_atom * atomic_weight)
+        atomic_weight = mendeleev.element(atom).atomic_weight
+        const += amount_of_atom * atomic_weight
     return const
 
 
@@ -41,7 +42,7 @@ def massToMoles(substance_formula, mass):
     Returns:
         moles (sfFloat): The moles of the element 
     """
-    moles = sfFloat(mass) / getMolarMass(substance_formula)
+    moles = mass / getMolarMass(substance_formula)
     return moles
 
 
@@ -203,3 +204,43 @@ def reactantsFromMoles(equation, product_amounts):
     for key in prod_key:
         reactant_amount[key] = moles * moleRatio(key, lim_reagent, coef)
     return reactant_amount
+
+
+def calcTheoreticalProduct(equation, target_product, product_amounts):
+    """
+    Calculate the mass of the target_product in the reaction described by equation, given the product_amounts.
+
+    Arguments:
+        equation (str): An equation representing the chemical reaction (unbalanced).
+        target_product (str): Formula of the compound to be found.
+        product_amounts (str): A dictionary with formula, mass (g) pairs for the products
+    Return:
+        theoretical_mass (float): The theoretical mass of the target_product
+    """
+    sols = solutionCoefficients(equation)
+    theoretical_mass = np.inf
+    for product in product_amounts:
+        tmp = massToMoles(product, product_amounts[product]) * sols[desired] / sols [i[0]] * getMolarMass(target_product)
+        if tmp < mi:
+            theoretical_mass= tmp
+    return theoretical_mass
+
+
+
+if __name__ == '__main__':
+
+    desired = 'H2O'
+    equation = "HBr + NaOH : NaBr + H2O"
+    one = ('HBr',23.5)
+    two = ('NaOH', 21.5)
+
+    sols = solutionCoefficients(equation)
+    writeBCESteps(equation)
+
+    mi = np.inf
+    for i in [one, two]:
+        tmp = massToMoles(i[0], i[1]) * sols[desired] / sols [i[0]] * getMolarMass(desired)
+        if tmp < mi:
+            mi = tmp
+    
+    print(mi)
