@@ -55,7 +55,8 @@ def checkZero(raw_number):
 
 def combustionAnalysisFindUnknown(unknown_MolarMass, unknown_compound_mass, product_information):
     """
-    
+    Get the composition of an unknown reactant in a combustion reaction with excess O2.
+
     Arguments:
         unknown_MolarMass (Decimal): The molar mass of the unknown compound.
         unknown_compound_mass (Decimal): The mass of the sample of the unknown compound.
@@ -63,7 +64,6 @@ def combustionAnalysisFindUnknown(unknown_MolarMass, unknown_compound_mass, prod
     Return:
         solution (dict={string:int}): The composition of the unknown compound.
     """
-
     # Molar mass of unknown compound
     molar_mass = unknown_MolarMass
     # Sig figs assumed to unkown_compound_mass
@@ -84,28 +84,42 @@ def combustionAnalysisFindUnknown(unknown_MolarMass, unknown_compound_mass, prod
     for atom, mole in info.items():
         tmp += (mole * Decimal(getMolarMass(atom))).quantize(sf) 
     tmp2 = (unknown_compound_mass - tmp).quantize(uk_mantissa) / Decimal(getMolarMass("O"))
-    # Add to list only if nonzero
+    # Add "O" to list only if nonzero
     if not checkZero(tmp2):
         info["O"] = tmp2
         atoms.append("O")
+    # Add information into a vector
     info_vector = np.fromiter(list(info.values()), dtype=Decimal)
     info_vector = info_vector / np.amin(info_vector)
+    # Make the vector all integers
     adder = copy.copy(info_vector)
     while not checkD(info_vector):
         info_vector += adder
+    # Round to integer
     aux = Decimal('0')
     for i in range(info_vector.size):
         info_vector[i] = info_vector[i].quantize(aux) 
+    # Extract info from vector
     solution = {}
     simple_molarmass = 0
     for i in range(len(atoms)):
         atom = atoms[i]
         mole = int(info_vector[i])
         solution[atom] = mole
-        simple_molarmass += getMolarMass(atom) * mole
+        simple_molarmass += Decimal(getMolarMass(atom)) * mole
+    # Scale to have accurate molar mass
     factor = round(molar_mass / simple_molarmass)
     for i in solution:
         solution[i] *= factor
+    # Done
     return solution
 
-if 
+if __name__ == '__main__':
+
+    X_mass = Decimal('5.50')
+    X_mm = Decimal('78')
+    product_information = {
+        "CO2": Decimal('18.62'),
+        "H2O": Decimal('3.81')
+    }
+    print(combustionAnalysisFindUnknown(X_mm, X_mass,product_information))
