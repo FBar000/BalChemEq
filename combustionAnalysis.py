@@ -59,9 +59,9 @@ def combustionAnalysisFindUnknown(unknown_MolarMass, unknown_compound_mass, prod
     Arguments:
         unknown_MolarMass (Decimal): The molar mass of the unknown compound.
         unknown_compound_mass (Decimal): The mass of the sample of the unknown compound.
-        
-    
-    
+        product_information (dict={string:Decimal}): A dict with the products and their masses.
+    Return:
+        solution (dict={string:int}): The composition of the unknown compound.
     """
 
     # Molar mass of unknown compound
@@ -107,3 +107,5 @@ def combustionAnalysisFindUnknown(unknown_MolarMass, unknown_compound_mass, prod
     for i in solution:
         solution[i] *= factor
     return solution
+
+if 
