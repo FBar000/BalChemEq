@@ -55,7 +55,7 @@ def checkZero(raw_number):
 
 def combustionAnalysisFindUnknown(unknown_MolarMass, unknown_compound_mass, product_information):
     """
-    Get the composition of an unknown reactant in a combustion reaction with excess O2.
+    Get the composition of an unknown reactant in a combustion reaction with excess O2
 
     Arguments:
         unknown_MolarMass (Decimal): The molar mass of the unknown compound.
