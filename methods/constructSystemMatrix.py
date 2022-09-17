@@ -129,7 +129,8 @@ def count(atom, term_tuple):
     # establish running total
     ct = 0
     # proceed if atom in term
-    if getInstanceIdx(term, atom) != -1:
+    idx = getInstanceIdx(term, atom)
+    if idx != -1:
         # base case: no parenthetical groups
         if term.find(')') == -1:
             # add numbers immediately after atom to total, or 1 if no number present
@@ -196,6 +197,7 @@ def getInstanceIdx(term, atom, idx=0):
     Returns -1 if no matches are found
     """
     idx = term.find(atom,idx)
+    if idx == -1: return -1
     if idx+len(atom) < len(term):
         while term[idx+len(atom)].islower() :
             idx = getInstanceIdx(term, atom, idx+1)
