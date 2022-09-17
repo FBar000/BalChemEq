@@ -5,8 +5,6 @@ import mendeleev
 # from methods import *
 from methods import *
 import BCE
-from sigFigsClass import *
-from BCE import *
 
 def getMolarMass(base_substance, target_substance=''):
     """
@@ -18,7 +16,7 @@ def getMolarMass(base_substance, target_substance=''):
         base_substance (string): the formual of the chemical substance
         target_substance (string): a subset of the substance formula
     Return:
-        const (sfFloat): grams of target_substance per mole of substance_foruma
+        const (float): grams of target_substance per mole of substance_foruma
     """
     # Default to molar mass
     if target_substance == '':
@@ -38,11 +36,12 @@ def massToMoles(substance_formula, mass):
 
     Arguments:
         substance_formula (string): A chemical formula (molecular formula)
-        mass (sfFloat): The mass (in grams) of the substance
+        mass (float): The mass (in grams) of the substance
     Returns:
-        moles (sfFloat): The moles of the element 
+        moles (float): The moles of the element 
     """
-    moles = mass / getMolarMass(substance_formula)
+    const =  getMolarMass(substance_formula)
+    moles = mass / const
     return moles
 
 
@@ -52,11 +51,12 @@ def molesToMass(substance_formula, moles):
 
     Arguments:
         substance_formula (string): A chemical formula (molecular formula)
-        mass (sfFloat): The moles of the substance
+        mass (float): The moles of the substance
     Returns:
-        moles (sfFloat): The moles of the element 
+        moles (float): The moles of the element 
     """
-    moles = sfFloat(moles) * getMolarMass(substance_formula)
+    const = getMolarMass(substance_formula)
+    moles = moles * const
     return moles
 
 
@@ -217,7 +217,7 @@ def calcTheoreticalProduct(equation, target_product, product_amounts):
     Return:
         theoretical_mass (float): The theoretical mass of the target_product
     """
-    sols = solutionCoefficients(equation)
+    sols = BCE.solutionCoefficients(equation)
     theoretical_mass = np.inf
     for product in product_amounts:
         tmp = massToMoles(product, product_amounts[product]) * sols[desired] / sols [i[0]] * getMolarMass(target_product)
@@ -225,22 +225,3 @@ def calcTheoreticalProduct(equation, target_product, product_amounts):
             theoretical_mass= tmp
     return theoretical_mass
 
-
-
-if __name__ == '__main__':
-
-    desired = 'H2O'
-    equation = "HBr + NaOH : NaBr + H2O"
-    one = ('HBr',23.5)
-    two = ('NaOH', 21.5)
-
-    sols = solutionCoefficients(equation)
-    writeBCESteps(equation)
-
-    mi = np.inf
-    for i in [one, two]:
-        tmp = massToMoles(i[0], i[1]) * sols[desired] / sols [i[0]] * getMolarMass(desired)
-        if tmp < mi:
-            mi = tmp
-    
-    print(mi)

@@ -116,5 +116,5 @@ def writeBCESteps(equation, wrap=True):
 if __name__ =="__main__":
 
     
-    equation = "CH3CH3 + O2 : CO2 + H2O"
+    equation = "Mg + HNO3 : Mg(NO3)2 + H2"
     writeBCESteps(equation)
