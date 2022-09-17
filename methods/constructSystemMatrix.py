@@ -132,12 +132,7 @@ def count(atom, term_tuple):
     if getInstanceIdx(term, atom) != -1:
         # base case: no parenthetical groups
         if term.find(')') == -1:
-            # Ensure atom itself is found (not any accidental matches e.g. 'Ca' for 'C')
-            idx = term.find(atom)
-            if idx+len(atom) < len(term):
-                while term[idx+len(atom)].islower() :
-                    idx = getInstanceIdx(term, atom, idx+1)
-            # add numbers immediately after atom to total
+            # add numbers immediately after atom to total, or 1 if no number present
             while idx != -1:
                 if idx + len(atom) < len(term) and term[idx+len(atom)].isnumeric():
                     ct += int(re.findall("[0-9]+", term[idx:])[0])
@@ -201,10 +196,7 @@ def getInstanceIdx(term, atom, idx=0):
     Returns -1 if no matches are found
     """
     idx = term.find(atom,idx)
-    # For single character atoms, ensure no accidental match (e.g. "Ca" for "C")
-    if len(atom) == 1:
-        if idx!=len(term)-1:
-            if term[idx+1].islower():
-                return -1
+    if idx+len(atom) < len(term):
+        while term[idx+len(atom)].islower() :
+            idx = getInstanceIdx(term, atom, idx+1)
     return idx
-
