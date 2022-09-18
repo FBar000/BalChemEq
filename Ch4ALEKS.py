@@ -23,17 +23,30 @@ def findConcentrationFromPrecipitate(equation, sample, mass_obtained):
     molarity = target_mass / sample[1]
     return molarity
 
-def getNeutralizingMass(equation, y_eq, x_eq, x_mol):
+def getNeutralizingMass(equation, target, present):
+    """
+    Find the mass of a base/acid needed to neutralize an acid/base.
+
+    Arguments:
+        equation (str): The unbalanced chemical equation for the neutralization reaction.
+        target (str): The formula for the acid/base to find.
+        present (tuple): A tuple containing the formula and moles of the base/acid present.
+    Return:
+        y_mass (float): The mass g required to neutralize x.
+    
+    
+    """
+    x_eq = present[0]
+    x_mol = present[1]
     sol = BCE.solutionCoefficients(equation)
-    y_mass = x_mol * sol[y_eq] / sol[x_eq] * getMoles.getMolarMass(y_eq)
+    y_mass = x_mol * sol[target] / sol[x_eq] * getMoles.getMolarMass(y_eq)
     return y_mass
 
 
 if __name__ == '__main__':
 
-    equation = 'NiCl2 + Ag(NO3) : AgCl + Ni(NO3)2'
-    sample = ('AgNO3', 0.25)
+    equation = 'NiCl2 + AgNO3 : AgCl + Ni(NO3)2'
+    sample = ('NiCl2', 0.25)
     mass_obtained = ('AgCl', 0.0081)
 
-    BCE.writeBCESteps(equation)
-    print(findConcentrationFromPrecipitate(equation, sample, mass_obtained))
+    print(getNeutralizingMass(equation, "NaHCO3", ))

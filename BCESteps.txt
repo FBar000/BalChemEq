@@ -1,5 +1,5 @@
 Equation
-NiCl2 + Ag(NO3) : AgCl + Ni(NO3)2
+NiCl2 + AgNO3 : AgCl + Ni(NO3)2
 Matrix
 [[ 0  1 -1  0]
  [ 2  0 -1  0]
@@ -15,4 +15,4 @@ Reduced Matrix
 Coefficients
 [1 2 2 1]
 Balanced Equation
-NiCl2 + 2 Ag(NO3) : 2 AgCl + Ni(NO3)2
+NiCl2 + 2 AgNO3 : 2 AgCl + Ni(NO3)2
