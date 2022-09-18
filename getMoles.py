@@ -220,7 +220,7 @@ def calcTheoreticalProduct(equation, target_product, product_amounts):
     sols = BCE.solutionCoefficients(equation)
     theoretical_mass = np.inf
     for product in product_amounts:
-        tmp = massToMoles(product, product_amounts[product]) * sols[target_product] / sols [i[0]] * getMolarMass(target_product)
+        tmp = massToMoles(product, product_amounts[product]) * sols[target_product] / sols[product] * getMolarMass(target_product)
         if tmp < theoretical_mass:
             theoretical_mass= tmp
     return theoretical_mass

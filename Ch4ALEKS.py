@@ -126,31 +126,3 @@ def massPercentCation(eq_target, eq_ppt, grams_ppt, target_to_sample, grams_samp
     grams_ppt = getMoles.molesToMass(eq_target, moles_ppt)
     return grams_ppt / grams_sample
 
-
-if __name__ == '__main__':
-    
-    eq_analyte = "H2O2"
-    grams_solution = 21
-    liters_titrant, molarity_titrant = (0.0496, 0.36)  
-    mole_ratio = 5 / 2  # analyte to titrant
-
-    moles_titrant = liters_titrant * molarity_titrant
-    moles_analyte = moles_titrant * mole_ratio
-    grams_analyte = getMoles.molesToMass(eq_analyte, moles_analyte)
-
-    print(grams_analyte / grams_solution)
-
-    # grams_sample = 21
-    # eq_ppt = "AgCl"
-    # eq_target = "Cl"
-    # grams_ppt = 0.498
-    # target_to_sample = 1    # moles of target in one mole of the precipitate
-    # mole_ratio = 1          # moles of analyte to moles of titrant
-
-    # moles_ppt = getMoles.massToMoles(eq_ppt, grams_ppt)
-    # moles_analyte = moles_ppt * mole_ratio
-    # moles_ppt = moles_analyte * target_to_sample
-    # grams_ppt = getMoles.molesToMass(eq_target, moles_ppt)
-
-    # print(grams_ppt / grams_sample)
-
