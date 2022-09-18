@@ -220,8 +220,26 @@ def calcTheoreticalProduct(equation, target_product, product_amounts):
     sols = BCE.solutionCoefficients(equation)
     theoretical_mass = np.inf
     for product in product_amounts:
-        tmp = massToMoles(product, product_amounts[product]) * sols[desired] / sols [i[0]] * getMolarMass(target_product)
-        if tmp < mi:
+        tmp = massToMoles(product, product_amounts[product]) * sols[target_product] / sols [i[0]] * getMolarMass(target_product)
+        if tmp < theoretical_mass:
             theoretical_mass= tmp
     return theoretical_mass
 
+def findLimitingReagent(equation, reactant_amts):
+    """
+    Find the limiting reactant.
+    
+    Arguments:
+        equation (str): The unbalanced chemical equation.
+        reactant_amts (dict): A dictionary with formula, mole pair values for the reactants.
+    Return:
+        limit_reagent: The formula of the limiting reagent.
+    """
+    sols = BCE.solutionCoefficients(equation)
+    lim, lim_store = "", 0
+    for ingredient in reactant_amts:
+        tmp = reactant_amts[ingredient] * sols[0] / sols[ingredient]
+        if tmp < lim_store:
+            lim = ingredient
+            lim_store = reactant_amts[ingredient]
+    return lim
