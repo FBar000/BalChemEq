@@ -39,14 +39,15 @@ def getNeutralizingMass(equation, target, present):
     x_eq = present[0]
     x_mol = present[1]
     sol = BCE.solutionCoefficients(equation)
-    y_mass = x_mol * sol[target] / sol[x_eq] * getMoles.getMolarMass(y_eq)
+    y_mass = x_mol * sol[target] / sol[x_eq] * getMoles.getMolarMass(target)
     return y_mass
 
 
 if __name__ == '__main__':
 
-    equation = 'NiCl2 + AgNO3 : AgCl + Ni(NO3)2'
-    sample = ('NiCl2', 0.25)
-    mass_obtained = ('AgCl', 0.0081)
+    equation = 'HCl + NaHCO3 : NaCl + H2O + CO2'
+    present_sub = "HCl"
+    present_moles = 0.1 * 0.017
+    present = (present_sub, present_moles)
 
-    print(getNeutralizingMass(equation, "NaHCO3", ))
+    print(getNeutralizingMass(equation, "NaHCO3", present))

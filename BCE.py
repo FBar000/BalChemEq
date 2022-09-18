@@ -117,4 +117,4 @@ if __name__ =="__main__":
 
     
     equation = "NH4ClO4 : N2 + Cl2 + O2 + H2O"
-    writeBCESteps(equation)
+    
