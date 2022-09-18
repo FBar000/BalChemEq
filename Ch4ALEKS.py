@@ -58,6 +58,99 @@ def getTitrantVolume(equation, analyte, titrant):
     titrant_volume = getMoles.massToMoles(analyte[0],analyte[1]) * sols[titrant[0]] / sols[analyte[0]] * (1 / titrant[1])
     return titrant_volume
 
+def findIonMolarity(equation, solute, solvent):
+    """
+    Find the molarity of a cation of the solute in a solution after a reaction.
+
+    Arguments:
+        equation (str): Unbalanced chemical equation.
+        solute (tuple): Formula and mass (g) of the solute.
+        titrant (tuple): Formula, volume, and molarity of the solvent.
+
+    Return:
+        ratio (float): The concentration of unreacted solute cations.
+    """
+    BCE.writeBCESteps(equation)
+    sols = BCE.solutionCoefficients(equation)
+
+    reactants = {
+        solute[0]: getMoles.massToMoles(solute[0],solute[1]),
+        solvent[0]: solvent[1]*solvent[2]
+    }
+
+    limiting = getMoles.getLimitingReagent(eq, reactants)
+    if limiting == solute[0]:
+        print(0)
+    else:
+        unreacted = getMoles.massToMoles(solute[0], solute[1]) - (sols[solute[0]] / sols[limiting]) * reactants[limiting]
+        print(unreacted / solvent[1])
+
+    print(getMoles.massToMoles(solute[0], solute[1]) / 0.1)
+
+
+def massPercentAnalyte(eq_analyte, grams_solution, titrant, mole_ratio):
+    """
+    Find the mass  percentage of an analyte in a sample.
+
+    Arguments:
+        eq_analyte (str): The chemical equation for the analyte.
+        grams_solution (float): The mass of the solution in grams.
+        titrant (tuple): A tuple with the volume (L) and molarity (M) of the titrant solution.
+        mole_ratio (float): The ratio of moles analyte to the titrant in the balanced equation.
+    Return:
+        mass_percentage (float): The ratio of the grams of the analyte to the grams of the solution.
+    """
+    grams_solution = 21
+    liters_titrant, molarity_titrant = titrant
+    moles_titrant = liters_titrant * molarity_titrant
+    moles_analyte = moles_titrant * mole_ratio
+    grams_analyte = getMoles.molesToMass(eq_analyte, moles_analyte)
+    return grams_analyte / grams_solution
+
+def massPercentCation(eq_target, eq_ppt, grams_ppt, target_to_sample, grams_sample, mole_ratio):
+    """
+    Find the mass  percentage of an analyte in a sample.
+
+    Arguments:
+        eq_target (str): The chemical equatio of the target ion.
+        eq_ppt (str): The chemical equation of the precipitate.
+        grams_ppt (float): The mass of the precipitate in grams.
+        titrant_to_sample (float): The ratio of moles of the target to one mole of the analyte.
+        mole_ratio (float): The mole ratio of analyte to the titrant in the balanced equation.
+    Return:
+        mass_percentage (float): The ratio of the grams of the analyte to the grams of the solution.
+    """
+    moles_ppt = getMoles.massToMoles(eq_ppt, grams_ppt)
+    moles_analyte = moles_ppt * mole_ratio
+    moles_ppt = moles_analyte * target_to_sample
+    grams_ppt = getMoles.molesToMass(eq_target, moles_ppt)
+    return grams_ppt / grams_sample
+
+
 if __name__ == '__main__':
     
-    eq = "I2"
+    eq_analyte = "H2O2"
+    grams_solution = 21
+    liters_titrant, molarity_titrant = (0.0496, 0.36)  
+    mole_ratio = 5 / 2  # analyte to titrant
+
+    moles_titrant = liters_titrant * molarity_titrant
+    moles_analyte = moles_titrant * mole_ratio
+    grams_analyte = getMoles.molesToMass(eq_analyte, moles_analyte)
+
+    print(grams_analyte / grams_solution)
+
+    # grams_sample = 21
+    # eq_ppt = "AgCl"
+    # eq_target = "Cl"
+    # grams_ppt = 0.498
+    # target_to_sample = 1    # moles of target in one mole of the precipitate
+    # mole_ratio = 1          # moles of analyte to moles of titrant
+
+    # moles_ppt = getMoles.massToMoles(eq_ppt, grams_ppt)
+    # moles_analyte = moles_ppt * mole_ratio
+    # moles_ppt = moles_analyte * target_to_sample
+    # grams_ppt = getMoles.molesToMass(eq_target, moles_ppt)
+
+    # print(grams_ppt / grams_sample)
+

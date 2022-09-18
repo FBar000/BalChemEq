@@ -225,7 +225,7 @@ def calcTheoreticalProduct(equation, target_product, product_amounts):
             theoretical_mass= tmp
     return theoretical_mass
 
-def findLimitingReagent(equation, reactant_amts):
+def getLimitingReagent(equation, reactant_amts):
     """
     Find the limiting reactant.
     
@@ -236,9 +236,10 @@ def findLimitingReagent(equation, reactant_amts):
         limit_reagent: The formula of the limiting reagent.
     """
     sols = BCE.solutionCoefficients(equation)
-    lim, lim_store = "", 0
+    lim, lim_store = "", np.inf
+    base_key = list(sols.keys())[0]
     for ingredient in reactant_amts:
-        tmp = reactant_amts[ingredient] * sols[0] / sols[ingredient]
+        tmp = reactant_amts[ingredient] * sols[base_key] / sols[ingredient]
         if tmp < lim_store:
             lim = ingredient
             lim_store = reactant_amts[ingredient]

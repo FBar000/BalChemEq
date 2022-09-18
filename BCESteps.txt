@@ -1,16 +1,20 @@
 Equation
-H3PO4 + NaOH : H2O + Na3PO4
+Ba(C2H3O2)2 + (NH4)2SO4 : BaSO4 + NH4(C2H3O2)
 Matrix
-[[ 3  1 -2  0]
- [ 0  1  0 -3]
- [ 4  1 -1 -4]
- [ 1  0  0 -1]]
+[[ 1  0 -1  0]
+ [ 4  0  0 -2]
+ [ 6  8  0 -7]
+ [ 0  2  0 -1]
+ [ 4  4 -4 -2]
+ [ 0  1 -1  0]]
 Reduced Matrix
-[[ 1  0  0 -1]
- [ 0  1  0 -3]
- [ 0  0  1 -3]
+[[ 2  0  0 -1]
+ [ 0  2  0 -1]
+ [ 0  0  2 -1]
+ [ 0  0  0  0]
+ [ 0  0  0  0]
  [ 0  0  0  0]]
 Coefficients
-[1 3 3 1]
+[1 1 1 2]
 Balanced Equation
-H3PO4 + 3 NaOH : 3 H2O + Na3PO4
+Ba(C2H3O2)2 + (NH4)2SO4 : BaSO4 + 2 NH4(C2H3O2)
