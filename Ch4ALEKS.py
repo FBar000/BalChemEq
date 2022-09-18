@@ -42,12 +42,20 @@ def getNeutralizingMass(equation, target, present):
     y_mass = x_mol * sol[target] / sol[x_eq] * getMoles.getMolarMass(target)
     return y_mass
 
+def getTitrantVolume(equation, analyte, titrant):
+    """
+    Get the volume of a titrant required to neutralize the analyte.
+
+    Arguments:
+        equation (str): Unbalanced chemical equation.
+        analyte (tuple): Formula and mass (g) of the analyte.
+        titrant (tuple): Formula and molarity of the titrant.
+
+    Return:
+        titrant_volume (float): The volume of the titrant (L).
+    """
+    sols = BCE.solutionCoefficients(equation)
+    titrant_volume = getMoles.massToMoles(analyte[0],analyte[1]) * sols[titrant[0]] / sols[analyte[0]] * (1 / titrant[1])
+    return titrant_volume
 
 if __name__ == '__main__':
-
-    equation = 'HCl + NaHCO3 : NaCl + H2O + CO2'
-    present_sub = "HCl"
-    present_moles = 0.1 * 0.017
-    present = (present_sub, present_moles)
-
-    print(getNeutralizingMass(equation, "NaHCO3", present))
