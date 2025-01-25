@@ -21,31 +21,37 @@ Then, fetch the dependencies via
 
 ## Usage 
 
-This project is intended as a collection of separate tools; each method has documentation. In any case, here is a guide for using the package to balance chemical equations.
+This project is intended as a collection of separate tools to be tailored to individual needs; each method has documentation. A summary of the files and their contents follows:
+
+
 
 ### Equation Criteria
 
-Conceptually, the programs in this project support chemical equations that encode exactly one chemical reaction. The reactant and product sides are separated by a colon (`:`) (E.g. `H2 + O2 : H2O`). 
+The programs are designed to read equations in a specific format. 
 
-When implementing such an equation in a string, the following 'mechanical' criteria must also be met:
-
-- The input only contains " ", "+", ":", "(", ")", and letters and numbers
-- There is exactly one ":" separating the reactant and product sides of the equation
-- If there is whitespace between two letters, there is also a "+"
-- Terms begin with uppercase letters
+General rules for the equation: 
+- It contains only " ", "+", ":", "(", ")", and letters and numbers
+- There is one ":" that separates the sides of the equation
 - Parentheses are balanced
-- Substrings from lowercase to earliest uppercase (right->left) contain only alphabetical characters
-(For a lowercase character, there is an unbroken string of letters to the left that contains an uppercase letter)
+
+Specific rules for terms: 
+- Terms begin with upper-case letters
+- Whitespace does not occur within terms of the equation
+- Lower-case letters must only occur after letters
 
 
-### Balance a Chemical Equation
+The `main.py` file demonstrates usage of the package's main features.
 
-Given an unbalanced chemical equation as a string, `S`,  `BCE.balanceChemicalEquation(S)` evaluates to the string with the balanced chemical equation.
+
+### Balance a Chemical Equation 
+
+
+Given an unbalanced chemical equation as a string, `equation_string`,  `BCE.balanceChemicalEquation(equation_string)` evaluates to the string with the balanced chemical equation.
 
 ```
->>> import BCE
->>> S = 'H2 + O2 : H2O'
->>> BCE.balanceChemicalEquation(S)
+import src.BCE as BCE
+equation_string = 'H2 + O2 : H2O'
+print(BCE.balanceChemicalEquation(equation_string))
 '2 H2 + O2 : 2 H2O'
 ```
 
@@ -54,9 +60,8 @@ Given an unbalanced chemical equation as a string, `S`,  `BCE.balanceChemicalEqu
 Given an unbalanced chemical equation as a string, `S`, `BCE.findBalancingCoefficients(S)` evaluates to a NumPy array containing the balancing coeffients. The order of the coefficents corresponds to the terms in the equation from left to right.
 
 ```
->>> import BCE
->>> S = 'H2 + O2 : H2O'
->>> BCE.findBalancingCoefficients(S)
+equation_string = 'H2 + O2 : H2O'
+BCE.findBalancingCoefficients(equation_string)
 array([2, 1, 2])
 ```
 
