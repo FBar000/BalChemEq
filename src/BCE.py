@@ -1,4 +1,6 @@
 """
+Main File
+
 Balance a chemical equation.
 
 Equations must contain exactly one reaction. All atoms must be present on both reactant and product sides of the equation.
