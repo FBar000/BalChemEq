@@ -40,6 +40,9 @@ Specific rules for terms:
 - Lower-case letters must only occur after letters
 
 
+
+
+
 The `main.py` file demonstrates usage of the package's main features.
 
 
@@ -51,30 +54,27 @@ Given an unbalanced chemical equation as a string, `equation_string`,  `BCE.bala
 ```
 import src.BCE as BCE
 equation_string = 'H2 + O2 : H2O'
-print(BCE.balanceChemicalEquation(equation_string))
-'2 H2 + O2 : 2 H2O'
+BCE.balanceChemicalEquation(equation_string)
+>>> '2 H2 + O2 : 2 H2O'
 ```
 
 ### Find Balancing Coefficients
 
-Given an unbalanced chemical equation as a string, `S`, `BCE.findBalancingCoefficients(S)` evaluates to a NumPy array containing the balancing coeffients. The order of the coefficents corresponds to the terms in the equation from left to right.
+Given an unbalanced chemical equation as a string, `equation_string`, `BCE.findBalancingCoefficients(equation_string)` evaluates to a NumPy array containing the balancing coeffients. The order of the coefficents corresponds to the terms in the equation from left to right.
 
 ```
-equation_string = 'H2 + O2 : H2O'
 BCE.findBalancingCoefficients(equation_string)
-array([2, 1, 2])
+>>> array([2, 1, 2])
 ```
 
 ### Write Steps to Solution
 
-To see the steps taken by the machine to balance an equation, `S` (string), `BCE.writeBCESteps(S)` creates a text file in the current directory titled `BCESteps.txt`.
+To see the steps taken by the machine to balance an equation, `equation_string`, `BCE.writeBCESteps(equation_string)` creates a text file in the current directory titled `BCESteps.txt`.
 
 
 ```
->>> import BCE
->>> S = 'H2 + O2 : H2O'
->>> BCE.writeBCESteps(S)
-'BCESteps.txt'
+BCE.writeBCESteps(equation_string)
+>>> 'BCESteps.txt'
 ```
 BCESteps.txt contains
 
