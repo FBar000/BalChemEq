@@ -1,6 +1,13 @@
 # BCE
 
-This is a project dedicated to balancing chemical equations. It is intended as a tool for building other programs. Given an equation as a string, this project contains programs to find the balancing coefficients, rewrite the chemical equation, as well as show the work. This is possible by representing chemical equations as systems of homogenous diophantine linear equations and using matrix operations. Currently, this program supports equations that have one unique solution. Chemically, this would mean equations that represent exactly one reaction.
+This is a project for balancing chemical equations. It is intended as a collection of scripts for building other programs rather than as a stand-alone calculator.
+
+
+Given a chemical equation, presented as a string, these programs will find the balancing coefficients, rewrite the chemical equation to contain them, and show the intermediate steps. At a high level, this is accomplished by interpreting a chemical equation as a system of  equations* and using matrix operations to find the smallest solution. 
+
+Currently, this program supports equations that have a unique solution. Chemically, thi means that it only accepts chemical equations that represent exactly one reaction.
+
+*homogenous diophantine linear equations
 
 ## Installation
 
@@ -14,7 +21,7 @@ Then, fetch the dependencies via
 
 ## Usage 
 
-As mentioned, this project is a tool. Every method has documentation.Anyways, here's a brief startup guide for the main methods of this file, contained in `BCE.py.`
+This project is intended as a collection of separate tools; each method has documentation. In any case, here is a guide for using the package to balance chemical equations.
 
 ### Equation Criteria
 
