@@ -10,7 +10,7 @@ Functions:
     half_matrix(string, string) -> ndarray
     count(string, tuple[string, int]) -> int
     split(string) -> tuple[tuple[string, int], tuple[string, int], tuple[string, int]]
-git b
+
 """
 import numpy as np
 import re
